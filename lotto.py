@@ -11,10 +11,12 @@ import plotly.express as px
 import numpy as np
 import statistics
 import math
+import pandas as pd
 def lottoSample():
     sample = []
     nums = []
     for i in range(1,7):
+        
         if len(nums) == 5:
             nums.append(randint(1, 26))
         else:
@@ -22,9 +24,32 @@ def lottoSample():
     sample.append(nums)
     return nums
             
+def numbersPlot(nums):
+    fig = px.histogram(nums,x = nums)
+    fig.show()
 
 
+def sumOfLottoPlot(pop):
+    sums = sumOfLotto(pop)
+    
+    fig = px.histogram(sums , x = sums)
+    fig.show()
 
+
+def sumOfLotto(pop):
+    su = 0
+    total = 0
+    sums = []
+    for i in pop:
+        sums.append(sum(i))
+    return sums
+
+
+def plotSums(pop):
+    fig = px.histogram(sumOfLotto(pop) , x = sumOfLotto(pop))
+    fig.show()
+def sumsAverage(sums):
+    return sum(sums)/len(sums)
 def main():
     population = []
     numsNoPowerBall = []
@@ -35,18 +60,16 @@ def main():
         for j in range(len(i)):
             if j != 5:
                 numsNoPowerBall.append(i[j])
-    fig = px.histogram(numsNoPowerBall,x = numsNoPowerBall)
-    fig.show()
-    su = 0
-    total = 0
-    sums = []
-    for i in population:
-        sums.append(sum(i))
+    numbersPlot(numsNoPowerBall)
     
-    fig = px.histogram(sums , x = sums)
-    fig.show()
-    sumAverage = sum(sums)/len(sums)
-    SD= statistics.stdev(sums)
+    sumOfLotto(population)
+    plotSums(population)
+    
+    
+    
+    
+    sumAverage = sumsAverage(sumOfLotto(population))
+    SD= statistics.stdev(sumOfLotto(population))
     print(sumAverage)
     print(SD)
     print("99.9% confidence interval for lotto nums sums without powerball")
