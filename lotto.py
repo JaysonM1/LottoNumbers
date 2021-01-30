@@ -66,7 +66,7 @@ def main():
     plotSums(population)
     
     
-    
+    ##dfdfdfdfd
     
     sumAverage = sumsAverage(sumOfLotto(population))
     SD= statistics.stdev(sumOfLotto(population))
