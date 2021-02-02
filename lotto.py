@@ -16,11 +16,11 @@ def lottoSample():
     sample = []
     nums = []
     for i in range(1,7):
-        
+        l = 0
         if len(nums) == 5:
             nums.append(randint(1, 26))
         else:
-            nums.append(randint(1,70))
+            nums.append(randint(1, 70))
     sample.append(nums)
     return nums
             
@@ -37,12 +37,21 @@ def sumOfLottoPlot(pop):
 
 
 def sumOfLotto(pop):
-    su = 0
-    total = 0
     sums = []
     for i in pop:
         sums.append(sum(i))
     return sums
+
+
+def differenceEachTicket(nums):
+    total = 0
+    pairs = (len(nums) + (len(nums) - 1))/2
+    for i in nums:
+        for j in nums:
+            if i == j:
+                continue
+            total = abs(i - j) + total
+    return total/pairs
 
 
 def plotSums(pop):
@@ -53,7 +62,7 @@ def sumsAverage(sums):
 def main():
     population = []
     numsNoPowerBall = []
-    for i in range(200000):
+    for i in range(5000):
         population.append(lottoSample())
         
     for i in population:
@@ -73,9 +82,16 @@ def main():
     print(sumAverage)
     print(SD)
     print("99.9% confidence interval for lotto nums sums without powerball")
-    upperSum = sumAverage + 3.291 * (SD/math.sqrt(200000))
-    lowerSum = sumAverage - 3.291 * (SD/math.sqrt(200000))
+    upperSum = sumAverage + 3.291 * (SD/math.sqrt(5000))
+    lowerSum = sumAverage - 3.291 * (SD/math.sqrt(5000))
     print("Upper: ", upperSum)
     print("Lower: ", lowerSum)
+    
+    total = 0
+    
+    for i in population:
+        total = total + differenceEachTicket(i)
+    diff = total / 5000
+    print("average difference between the numbers in the tickets: ", diff)
 if __name__ == "__main__":
     main()
